@@ -1,0 +1,24 @@
+class Solution
+{
+    public:
+        vector <int> search(string pat, string txt)
+        {
+           string str=pat+"#"+txt;
+           vector<int>z(str.length(),0);
+           for(int i=pat.length()+1;i<str.length();i++){
+               int j=0;
+               while(i+j<str.length() && str[j]==str[i+j]){
+                   j++;
+               }
+               z[i]=j;
+           }
+           vector<int>ans;
+           for(int k=0;k<z.size();k++){
+               if(z[k]==pat.length()){
+                   ans.push_back(k-pat.length());
+               }
+           }
+           return ans;
+        }
+     
+};
