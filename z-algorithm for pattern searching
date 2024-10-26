@@ -3,22 +3,40 @@ class Solution
     public:
         vector <int> search(string pat, string txt)
         {
-           string str=pat+"#"+txt;
-           vector<int>z(str.length(),0);
-           for(int i=pat.length()+1;i<str.length();i++){
-               int j=0;
-               while(i+j<str.length() && str[j]==str[i+j]){
+            //first concatenate  txt and pat
+            string str=pat+"$"+txt;
+            int len=str.length();
+            vector<int>z(len,0);
+            //int i=pat.length()+1;
+            int j=0;
+            int plen=pat.length();
+            //start iterating from txt string not from starting of the str string(chatgpt is doing it)
+            for(int i=plen+1;i<=len-plen;i++){
+                if( pat[j]==str[i]){
+                   //keep track on the starting index of the pattern match
+                    int stri=i;
+                   //keep count how many numbers have matched
+                    int cnt=0;
+                    while(j<pat.length() &&  pat[j]==str[stri]){
+                    cnt++;
                    j++;
-               }
-               z[i]=j;
-           }
-           vector<int>ans;
-           for(int k=0;k<z.size();k++){
-               if(z[k]==pat.length()){
-                   ans.push_back(k-pat.length());
-               }
-           }
-           return ans;
+                   stri++;
+                    }
+                //reset the pointer of the pattern index for another iteration
+                   j=0;
+                //store the numbers of mathced charactors in z array of that particular index
+                   z[i]=cnt;
+                }
+                
+            }
+            vector<int>ans;
+            for(int i=0;i<len;i++){
+               // the pattern will be found out only all the charactors have mathced i.e length of the pattern will be equal to z value 
+                if(z[i]==plen){
+                    ans.push_back(i-plen);
+                }
+            }
+            return ans;
         }
      
 };
